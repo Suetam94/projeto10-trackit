@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     --calendar-gray-color: #CFCFCF;
     --inactive-check-color: #e7e7e7;
     --active-check-color: #8FC549;
-    --body-background-color: #e7e7e7;
+    --body-background-color: #f2f2f2;
   }
   
   body {

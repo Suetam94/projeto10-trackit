@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  background: var(--body-background-color);
+  height: 100vh;
+`;
+
 export const ContentContainer = styled.main`
   display: flex;
   flex-direction: column;
@@ -28,4 +33,13 @@ export const IconContainer = styled.button`
   background: var(--general-blue);
   border-radius: var(--border-radius);
   cursor: pointer;
+`;
+
+export const InfoText = styled.p`
+  min-width: 338px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 17.976px;
+  line-height: 22px;
+  color: #666666;
 `;
