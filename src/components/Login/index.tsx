@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   LoginContainer,
   LoginImage,
@@ -15,7 +17,9 @@ export function Login() {
         <Input type={"text"} placeholder={"email"} />
         <Input type={"text"} placeholder={"senha"} />
         <Button type={"submit"}>Entrar</Button>
-        <SignInLink>Não tem uma conta? Cadastre-se!</SignInLink>
+        <Link href={"/cadastro"}>
+          <SignInLink>Não tem uma conta? Cadastre-se!</SignInLink>
+        </Link>
       </Form>
     </LoginContainer>
   );
