@@ -7,9 +7,9 @@ import {
   InfoText,
 } from "./styles";
 import { Plus } from "phosphor-react";
-import { ContentForm } from "../ContentForm";
+import { HabitsForm } from "../HabitsForm";
 
-export function Content() {
+export function Habits() {
   return (
     <Container>
       <ContentContainer>
@@ -19,7 +19,7 @@ export function Content() {
             <Plus size={16} weight="bold" color={"#FFF"} />
           </IconContainer>
         </TitleContainer>
-        <ContentForm />
+        <HabitsForm />
         <InfoText>
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
           começar a trackear!

@@ -6,7 +6,7 @@ import {
   ButtonsContainer,
 } from "./styles";
 
-export function ContentForm() {
+export function HabitsForm() {
   const weekdays: Array<string> = ["D", "S", "T", "Q", "Q", "S", "S"];
 
   return (

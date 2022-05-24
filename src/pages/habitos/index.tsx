@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import { ContentHeader } from "../../components/ContentHeader";
-import { Content } from "../../components/Content";
+import { Header } from "../../components/Header";
+import { Habits } from "../../components/Habits";
 import Head from "next/head";
 
 const Habitos: NextPage = () => {
@@ -9,8 +9,8 @@ const Habitos: NextPage = () => {
       <Head>
         <title>Hábitos | TrackIt</title>
       </Head>
-      <ContentHeader />
-      <Content />
+      <Header />
+      <Habits />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { HeaderContainer, HeaderLogo, HeaderUserImage } from "./styles";
 import { User } from "phosphor-react";
 
-export function ContentHeader() {
+export function Header() {
   return (
     <>
       <HeaderContainer>
