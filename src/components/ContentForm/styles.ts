@@ -55,6 +55,18 @@ export const Weekday = styled.div`
 
   &:hover {
     background: #cfcfcf;
+
+    span {
+      color: var(--general-white);
+    }
+  }
+
+  &.active {
+    background: #cfcfcf;
+
+    span {
+      color: var(--general-white);
+    }
   }
 
   span {
@@ -62,10 +74,6 @@ export const Weekday = styled.div`
     line-height: 25px;
     color: var(--placeholder-color);
     text-transform: uppercase;
-
-    &:hover {
-      color: var(--general-white);
-    }
   }
 `;
 
