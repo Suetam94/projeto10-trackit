@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import {
   LoginContainer,
   LoginImage,
@@ -8,17 +6,20 @@ import {
   Button,
   SignInLink,
 } from "../../styles/LoginSignInStyle";
+import Link from "next/link";
 
-export function Login() {
+export function SignIn() {
   return (
     <LoginContainer>
       <LoginImage src={"/images/logo.svg"} />
       <Form>
         <Input type={"text"} placeholder={"email"} />
         <Input type={"text"} placeholder={"senha"} />
-        <Button type={"submit"}>Entrar</Button>
-        <Link href={"/cadastro"}>
-          <SignInLink>Não tem uma conta? Cadastre-se!</SignInLink>
+        <Input type={"text"} placeholder={"nome"} />
+        <Input type={"text"} placeholder={"foto"} />
+        <Button type={"submit"}>Cadastrar</Button>
+        <Link href={"/"}>
+          <SignInLink>Já tem uma conta? Faça login!</SignInLink>
         </Link>
       </Form>
     </LoginContainer>

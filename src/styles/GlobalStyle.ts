@@ -32,6 +32,11 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Lexend Deca', sans-serif;
     background: #52B6FF;
     border-radius: 4.63636px;
+    transition: filter 0.2s;
+    
+    &:hover {
+      filter: brightness(0.95);
+    }
   }
   
 `;

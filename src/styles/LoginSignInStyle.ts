@@ -45,6 +45,7 @@ export const Button = styled.button`
   line-height: 26px;
   text-align: center;
   color: #ffffff;
+  cursor: pointer;
 `;
 
 export const SignInLink = styled.a`
@@ -55,4 +56,5 @@ export const SignInLink = styled.a`
   text-decoration-line: underline;
   color: #52b6ff;
   margin-top: 25px;
+  cursor: pointer;
 `;
