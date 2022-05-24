@@ -25,7 +25,13 @@ export const GlobalStyle = createGlobalStyle`
   
   body {
     font-family: 'Lexend Deca', sans-serif;
-    background: var(--body-background-color);
+  }
+  
+  button {
+    border: none;
+    font-family: 'Lexend Deca', sans-serif;
+    background: #52B6FF;
+    border-radius: 4.63636px;
   }
   
 `;
