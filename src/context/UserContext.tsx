@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../services/axios";
 import { Login } from "../components/Login";
 
@@ -11,10 +18,20 @@ interface Login {
   password: string;
 }
 
-const UserDataContext = createContext({});
+interface UserDataContextProps {
+  setLoginData: Dispatch<SetStateAction<Login>>;
+  userData: Array<any>;
+}
+
+const UserDataContext = createContext<UserDataContextProps>(
+  {} as UserDataContextProps
+);
 
 export const UserDataProvider = ({ children }: UserDataProviderProps) => {
-  const [loginData, setLoginData] = useState<Login>({} as Login);
+  const [loginData, setLoginData] = useState<Login>({
+    email: "",
+    password: "",
+  });
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {

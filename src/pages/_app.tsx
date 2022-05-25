@@ -1,12 +1,15 @@
 import type { AppProps } from "next/app";
 
 import { GlobalStyle } from "../styles/GlobalStyle";
+import { UserDataProvider } from "../context/UserContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <UserDataProvider>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </UserDataProvider>
     </>
   );
 }
