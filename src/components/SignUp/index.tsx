@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { Warning } from "../Warning";
+import { GeneralModal } from "../GeneralModal";
 import {
   LoginContainer,
   LoginImage,
@@ -15,15 +16,44 @@ import emailValidator from "../../utils/validators/emailValidator";
 import passwordValidator from "../../utils/validators/passwordValidator";
 import nameValidator from "../../utils/validators/nameValidator";
 import photoUrlValidator from "../../utils/validators/photoUrlValidator";
+import { api } from "../../services/axios";
 
-export function SignIn() {
+export function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
   const [valid, setValid] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [requestStatusSuccess, setRequestStatusSuccess] =
+    useState<boolean>(true);
 
-  function handleSignInRequest(event: FormEvent) {}
+  function handleIsModalClosed() {
+    setIsModalOpen(false);
+  }
+
+  async function handleSignInRequest(event: FormEvent) {
+    event.preventDefault();
+
+    if (!valid) {
+      return setIsModalOpen(true);
+    }
+
+    const requestBody = {
+      email,
+      name,
+      image: photo,
+      password,
+    };
+
+    const { status } = await api.post("/auth/sign-up", requestBody);
+
+    setRequestStatusSuccess(status === 201);
+
+    if (requestStatusSuccess) {
+      return setIsModalOpen(true);
+    }
+  }
 
   return (
     <LoginContainer>
@@ -52,7 +82,7 @@ export function SignIn() {
         <Warning
           id={"passwordWarning"}
           warningText={
-            "A senha deve conter no mínimo 8 caracteres, com pelo menos uma letra maiúscula, uma letra minúscula e um número"
+            "A senha deve conter no mínimo 8 caracteres, com pelo menos uma letra maiúscula, uma letra minúscula e um número."
           }
         />
         <Input
@@ -81,6 +111,15 @@ export function SignIn() {
           <SignInLink>Já tem uma conta? Faça login!</SignInLink>
         </Link>
       </Form>
+      <GeneralModal
+        isOpen={isModalOpen}
+        onRequestClose={handleIsModalClosed}
+        infoText={
+          !requestStatusSuccess
+            ? "Oops! Houve um problema na solicitação do seu cadastro, por favor, tente novamente"
+            : "Oops! Algo deu errado, por favor verifique os campos destacados e tente novamente!"
+        }
+      />
     </LoginContainer>
   );
 }

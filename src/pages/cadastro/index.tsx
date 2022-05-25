@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { SignIn } from "../../components/SignIn";
+import { SignUp } from "../../components/SignUp";
 import Head from "next/head";
 
 const Cadastro: NextPage = () => {
@@ -8,7 +8,7 @@ const Cadastro: NextPage = () => {
       <Head>
         <title>Cadastro | TrackIt</title>
       </Head>
-      <SignIn />
+      <SignUp />
     </>
   );
 };
