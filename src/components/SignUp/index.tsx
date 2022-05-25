@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
 
+import { FormEvent, useState } from "react";
 import { Warning } from "../Warning";
 import { GeneralModal } from "../GeneralModal";
+
 import {
   LoginContainer,
   LoginImage,
@@ -11,7 +13,6 @@ import {
   Button,
   SignInLink,
 } from "../../styles/LoginSignInStyle";
-
 import emailValidator from "../../utils/validators/emailValidator";
 import passwordValidator from "../../utils/validators/passwordValidator";
 import nameValidator from "../../utils/validators/nameValidator";
@@ -19,6 +20,7 @@ import photoUrlValidator from "../../utils/validators/photoUrlValidator";
 import { api } from "../../services/axios";
 
 export function SignUp() {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -46,11 +48,20 @@ export function SignUp() {
       password,
     };
 
-    const { status } = await api.post("/auth/sign-up", requestBody);
+    try {
+      const response = await api.post("/auth/sign-up", requestBody);
 
-    setRequestStatusSuccess(status === 201);
+      setRequestStatusSuccess(response.status === 201);
 
-    if (requestStatusSuccess) {
+      if (!requestStatusSuccess) {
+        return setIsModalOpen(true);
+      }
+
+      return router.push({
+        pathname: "/",
+      });
+    } catch (e) {
+      setRequestStatusSuccess(false);
       return setIsModalOpen(true);
     }
   }
