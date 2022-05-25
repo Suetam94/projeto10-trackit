@@ -18,9 +18,18 @@ interface Login {
   password: string;
 }
 
+interface UserDataProps {
+  id: number;
+  name: string;
+  image: string;
+  email: string;
+  password: string;
+  token: string;
+}
+
 interface UserDataContextProps {
   setLoginData: Dispatch<SetStateAction<Login>>;
-  userData: Array<any>;
+  userData: UserDataProps;
 }
 
 const UserDataContext = createContext<UserDataContextProps>(
@@ -32,7 +41,14 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     email: "",
     password: "",
   });
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState<UserDataProps>({
+    id: 0,
+    email: "",
+    image: "",
+    name: "",
+    password: "",
+    token: "",
+  });
 
   useEffect(() => {
     async function login() {

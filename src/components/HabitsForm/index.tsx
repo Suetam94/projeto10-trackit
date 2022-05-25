@@ -6,14 +6,14 @@ import {
   ButtonsContainer,
 } from "./styles";
 
+import { weekdays } from "../../utils/weekdays";
+
 interface HabitsFormProps {
   isFormOpen: boolean;
   onFormIsOpened: (open: boolean) => void;
 }
 
 export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
-  const weekdays: Array<string> = ["D", "S", "T", "Q", "Q", "S", "S"];
-
   return (
     <FormContainer
       id={"formContainer"}
@@ -24,8 +24,8 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
         {weekdays.map((weekday, index) => {
           return (
             <Weekday key={index}>
-              <span>{weekday}</span>
-              <input type="hidden" value={weekday} />
+              <span>{weekday.title}</span>
+              <input type="hidden" value={weekday.value} />
             </Weekday>
           );
         })}
