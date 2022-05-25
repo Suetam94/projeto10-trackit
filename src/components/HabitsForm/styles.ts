@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const FormContainer = styled.form`
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   min-width: 340px;
@@ -11,6 +11,14 @@ export const FormContainer = styled.form`
   background: var(--general-white);
   border-radius: var(--border-radius);
   margin: 20px 0 29px 0;
+
+  &.form-showed {
+    display: flex;
+  }
+
+  &.form-hide {
+    display: none;
+  }
 `;
 
 export const Input = styled.input`

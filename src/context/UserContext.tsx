@@ -40,8 +40,12 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
         email: loginData.email,
         password: loginData.password,
       };
-      const { data } = await api.post(`/auth/login`, loginRequest);
-      setUserData(data);
+      try {
+        const { data } = await api.post(`/auth/login`, loginRequest);
+        setUserData(data);
+      } catch (e) {
+        console.log(e); //TODO
+      }
     }
 
     login();

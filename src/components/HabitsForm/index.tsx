@@ -6,11 +6,19 @@ import {
   ButtonsContainer,
 } from "./styles";
 
-export function HabitsForm() {
+interface HabitsFormProps {
+  isFormOpen: boolean;
+  onFormIsOpened: (open: boolean) => void;
+}
+
+export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   const weekdays: Array<string> = ["D", "S", "T", "Q", "Q", "S", "S"];
 
   return (
-    <FormContainer>
+    <FormContainer
+      id={"formContainer"}
+      className={isFormOpen ? "form-showed" : "form-hide"}
+    >
       <Input type={"text"} placeholder={"nome do hábito"} />
       <WeekdayContainer>
         {weekdays.map((weekday, index) => {
@@ -23,7 +31,11 @@ export function HabitsForm() {
         })}
       </WeekdayContainer>
       <ButtonsContainer>
-        <button type={"button"} className="cancel">
+        <button
+          onClick={() => onFormIsOpened(false)}
+          type={"button"}
+          className="cancel"
+        >
           Cancelar
         </button>
         <button type={"submit"} className="save">
