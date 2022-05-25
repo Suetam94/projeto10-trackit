@@ -89,6 +89,7 @@ export function SignUp() {
           onChange={(password) =>
             passwordValidator(password.target.value, setPassword, setValid)
           }
+          autoComplete={password}
         />
         <Warning
           id={"passwordWarning"}
