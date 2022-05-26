@@ -23,6 +23,7 @@ interface HabitsContextProps {
   setHabits: (habits: Habit[]) => void;
   newHabit: Habit;
   setNewHabit: (newHabit: Habit) => void;
+  setHabitExcluded: (excluded: boolean) => void;
 }
 
 const HabitsContext = createContext<HabitsContextProps>(
@@ -32,6 +33,7 @@ const HabitsContext = createContext<HabitsContextProps>(
 export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newHabit, setNewHabit] = useState<Habit>({ name: "", days: [] });
+  const [habitExcluded, setHabitExcluded] = useState(false);
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
@@ -50,11 +52,11 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getHabits();
-  }, [userData.token, newHabit]);
+  }, [userData.token, newHabit, habitExcluded]);
 
   return (
     <HabitsContext.Provider
-      value={{ habits, setHabits, newHabit, setNewHabit }}
+      value={{ habits, setHabits, newHabit, setNewHabit, setHabitExcluded }}
     >
       {children}
     </HabitsContext.Provider>

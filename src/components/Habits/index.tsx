@@ -37,7 +37,7 @@ export function Habits() {
         ) : (
           habits.map((habit) => {
             return (
-              <HabitItem key={habit.id} name={habit.name} days={habit.days} />
+              <HabitItem key={habit.id} id={habit.id} name={habit.name} days={habit.days} />
             );
           })
         )}
