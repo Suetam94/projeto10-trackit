@@ -21,6 +21,8 @@ export interface Habit {
 interface HabitsContextProps {
   habits: Habit[];
   setHabits: (habits: Habit[]) => void;
+  newHabit: Habit;
+  setNewHabit: (newHabit: Habit) => void;
 }
 
 const HabitsContext = createContext<HabitsContextProps>(
@@ -29,6 +31,7 @@ const HabitsContext = createContext<HabitsContextProps>(
 
 export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   const [habits, setHabits] = useState<Habit[]>([]);
+  const [newHabit, setNewHabit] = useState<Habit>({ name: "", days: [] });
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
@@ -47,10 +50,12 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getHabits();
-  }, [userData.token]);
+  }, [userData.token, newHabit]);
 
   return (
-    <HabitsContext.Provider value={{ habits, setHabits }}>
+    <HabitsContext.Provider
+      value={{ habits, setHabits, newHabit, setNewHabit }}
+    >
       {children}
     </HabitsContext.Provider>
   );

@@ -8,9 +8,9 @@ import {
 
 import { weekdays } from "../../utils/weekdays";
 import { FormEvent, useContext, useState } from "react";
-import HabitsContext from "../../context/HabitsContext";
 import UserContext from "../../context/UserContext";
 import { api } from "../../services/axios";
+import HabitsContext from "../../context/HabitsContext";
 
 interface HabitsFormProps {
   isFormOpen: boolean;
@@ -19,7 +19,7 @@ interface HabitsFormProps {
 
 export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   const { userData } = useContext(UserContext);
-
+  const { setNewHabit } = useContext(HabitsContext);
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
 
@@ -43,8 +43,10 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
       days,
     };
 
+    setNewHabit(createNewHabitRequestObject);
+
     try {
-      const response = await api.post("/habits", createNewHabitRequestObject, {
+      await api.post("/habits", createNewHabitRequestObject, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },

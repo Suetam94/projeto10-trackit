@@ -71,7 +71,7 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     }
 
     login();
-  }, [loginData.email, loginData.password]);
+  }, []);
 
   return (
     <UserDataContext.Provider
