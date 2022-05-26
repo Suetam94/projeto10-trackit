@@ -66,6 +66,7 @@ export const Weekday = styled.div`
 
     span {
       color: var(--general-white);
+      pointer-events: none;
     }
   }
 

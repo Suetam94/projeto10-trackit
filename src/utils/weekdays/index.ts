@@ -1,30 +1,30 @@
 export const weekdays = [
   {
     title: "D",
-    value: "domingo",
+    value: 1,
   },
   {
     title: "S",
-    value: "segunda",
+    value: 2,
   },
   {
     title: "T",
-    value: "terça",
+    value: 3,
   },
   {
     title: "Q",
-    value: "quarta",
+    value: 4,
   },
   {
     title: "Q",
-    value: "quinta",
+    value: 5,
   },
   {
     title: "S",
-    value: "sexta",
+    value: 6,
   },
   {
     title: "S",
-    value: "sábado",
+    value: 7,
   },
 ];
