@@ -26,6 +26,7 @@ export const MainTitle = styled.h3`
   font-size: 22.976px;
   line-height: 29px;
   color: var(--darker-blue);
+  text-transform: capitalize;
 `;
 
 export const SubTitle = styled.span`

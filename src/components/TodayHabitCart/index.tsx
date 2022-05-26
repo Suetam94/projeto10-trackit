@@ -6,8 +6,15 @@ import {
   HabitCheckContainer,
 } from "./styles";
 import { Check } from "phosphor-react";
+import { TodayHabitProps } from "../../context/HabitsContext";
 
-export function TodayHabitCart() {
+export function TodayHabitCart({
+  id,
+  currentSequence,
+  done,
+  highestSequence,
+  name,
+}: TodayHabitProps) {
   return (
     <TodayCartContainer>
       <HabitInfoContainer>

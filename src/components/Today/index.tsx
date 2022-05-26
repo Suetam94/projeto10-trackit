@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 import {
   Container,
   TodayContainer,
@@ -6,16 +8,39 @@ import {
   SubTitle,
 } from "./styles";
 import { TodayHabitCart } from "../TodayHabitCart";
+import { useContext } from "react";
+import HabitsContext from "../../context/HabitsContext";
+import { ptBR } from "date-fns/locale";
 
 export function Today() {
+  const { todayHabits } = useContext(HabitsContext);
+
+  const date = new Date();
+  const actualWeekday = format(date, "eee, dd/MM", { locale: ptBR });
+
   return (
     <Container>
       <TodayContainer>
         <TitleContainer>
-          <MainTitle>Segunda, 17/05</MainTitle>
-          <SubTitle>Nenhum hábito concluído ainda</SubTitle>
+          <MainTitle>{actualWeekday}</MainTitle>
+          {todayHabits.length === 0 && (
+            <SubTitle>Nenhum hábito concluído ainda</SubTitle>
+          )}
         </TitleContainer>
-        <TodayHabitCart />
+        {todayHabits.map(
+          ({ id, currentSequence, highestSequence, done, name }, index) => {
+            return (
+              <TodayHabitCart
+                key={index}
+                id={id}
+                done={done}
+                currentSequence={currentSequence}
+                highestSequence={highestSequence}
+                name={name}
+              />
+            );
+          }
+        )}
       </TodayContainer>
     </Container>
   );

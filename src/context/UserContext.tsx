@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   createContext,
   Dispatch,
@@ -8,7 +9,7 @@ import {
 } from "react";
 import { api } from "../services/axios";
 import { Login } from "../components/Login";
-import { useRouter } from "next/router";
+import { encodeTokenHash } from "../utils/tokenHash";
 
 interface UserDataProviderProps {
   children: ReactNode;
@@ -50,6 +51,9 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     password: "",
     token: "",
   });
+
+  const [userIsLogged, setUserIsLogged] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -61,7 +65,6 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
       try {
         const { data } = await api.post(`/auth/login`, loginRequest);
         setUserData(data);
-
         await router.push({
           pathname: "/habitos",
         });
@@ -71,7 +74,15 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     }
 
     login();
-  }, []);
+    setUserIsLogged(true);
+  }, [loginData.email, loginData.password, userIsLogged]);
+
+  useEffect(() => {
+    if (userData) {
+      const base32Hash = encodeTokenHash(userData.token);
+      localStorage.setItem("token", base32Hash);
+    }
+  }, [userData]);
 
   return (
     <UserDataContext.Provider
