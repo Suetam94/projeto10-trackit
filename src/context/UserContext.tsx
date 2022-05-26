@@ -8,6 +8,7 @@ import {
 } from "react";
 import { api } from "../services/axios";
 import { Login } from "../components/Login";
+import { useRouter } from "next/router";
 
 interface UserDataProviderProps {
   children: ReactNode;
@@ -49,6 +50,7 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     password: "",
     token: "",
   });
+  const router = useRouter();
 
   useEffect(() => {
     async function login() {
@@ -59,6 +61,10 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
       try {
         const { data } = await api.post(`/auth/login`, loginRequest);
         setUserData(data);
+
+        await router.push({
+          pathname: "/habitos",
+        });
       } catch (e) {
         console.log(e); //TODO
       }

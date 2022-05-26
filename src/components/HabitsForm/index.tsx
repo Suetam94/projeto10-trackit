@@ -18,13 +18,13 @@ interface HabitsFormProps {
 }
 
 export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
-  const { setNewHabit } = useContext(HabitsContext);
   const { userData } = useContext(UserContext);
 
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
 
   function handleWeekdaysSelection(el: HTMLElement) {
+    el.classList.add("active");
     el.childNodes.forEach((node) => {
       if (node.nodeName === "INPUT") {
         const input = node as HTMLInputElement;
@@ -35,6 +35,8 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
 
   async function handleFormCreateNewHabitSubmit(event: FormEvent) {
     event.preventDefault();
+
+    onFormIsOpened(false);
 
     const createNewHabitRequestObject = {
       name: habitName,

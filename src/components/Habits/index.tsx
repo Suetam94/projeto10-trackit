@@ -8,10 +8,13 @@ import {
 } from "./styles";
 import { Plus } from "phosphor-react";
 import { HabitsForm } from "../HabitsForm";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import HabitsContext from "../../context/HabitsContext";
+import { HabitItem } from "../HabitItem";
 
 export function Habits() {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const { habits } = useContext(HabitsContext);
   function handleIsFormOpen() {
     setIsFormOpen(true);
   }
@@ -26,10 +29,18 @@ export function Habits() {
           </IconContainer>
         </TitleContainer>
         <HabitsForm isFormOpen={isFormOpen} onFormIsOpened={setIsFormOpen} />
-        <InfoText>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-          começar a trackear!
-        </InfoText>
+        {habits.length === 0 ? (
+          <InfoText>
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+            começar a trackear!
+          </InfoText>
+        ) : (
+          habits.map((habit) => {
+            return (
+              <HabitItem key={habit.id} name={habit.name} days={habit.days} />
+            );
+          })
+        )}
       </ContentContainer>
     </Container>
   );
