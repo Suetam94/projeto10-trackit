@@ -32,6 +32,8 @@ interface UserDataProps {
 interface UserDataContextProps {
   setLoginData: Dispatch<SetStateAction<Login>>;
   userData: UserDataProps;
+  setUserIsLogged: (userIsLogged: boolean) => void;
+  userIsLogged: boolean;
 }
 
 const UserDataContext = createContext<UserDataContextProps>(
@@ -67,9 +69,9 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
         setUserData(data);
         setUserIsLogged(true);
 
-        await router.push({
-          pathname: "/habitos",
-        });
+        // await router.push({
+        //   pathname: "/habitos",
+        // });
       } catch (e) {
         console.log(e); //TODO
       }
@@ -90,6 +92,8 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
       value={{
         setLoginData,
         userData,
+        setUserIsLogged,
+        userIsLogged,
       }}
     >
       {children}

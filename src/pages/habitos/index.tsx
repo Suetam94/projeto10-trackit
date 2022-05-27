@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { Header } from "../../components/Header";
 import { Habits } from "../../components/Habits";
 import Head from "next/head";
+import { Footer } from "../../components/Footer";
 
 const Habitos: NextPage = () => {
   return (
@@ -11,6 +12,7 @@ const Habitos: NextPage = () => {
       </Head>
       <Header />
       <Habits />
+      <Footer />
     </>
   );
 };

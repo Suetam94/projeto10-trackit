@@ -1,7 +1,8 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import { Header } from "../../components/Header";
 import { Today } from "../../components/Today";
-import Head from "next/head";
+import { Footer } from "../../components/Footer";
 
 const Hoje: NextPage = () => {
   return (
@@ -11,6 +12,7 @@ const Hoje: NextPage = () => {
       </Head>
       <Header />
       <Today />
+      <Footer />
     </>
   );
 };
