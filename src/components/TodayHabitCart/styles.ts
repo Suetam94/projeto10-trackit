@@ -47,6 +47,7 @@ export const HabitCheckContainer = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   &.active {
     background: var(--active-check-color);

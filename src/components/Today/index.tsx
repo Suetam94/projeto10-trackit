@@ -18,8 +18,6 @@ export function Today() {
   const date = new Date();
   const actualWeekday = format(date, "eee, dd/MM", { locale: ptBR });
 
-  console.log(todayHabits);
-
   return (
     <Container>
       <TodayContainer>

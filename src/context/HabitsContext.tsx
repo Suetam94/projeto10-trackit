@@ -9,6 +9,7 @@ import { api } from "../services/axios";
 import UserContext from "./UserContext";
 import { decodeTokenHash } from "../utils/tokenHash";
 import { useRouter } from "next/router";
+import UserDataContext from "./UserContext";
 
 interface HabitsDataProviderProps {
   children: ReactNode;
@@ -30,6 +31,8 @@ interface HabitsContextProps {
   setTodayHabits: (todayHabits: TodayHabitProps[]) => void;
   createNewHabitRequest: (habitName: string, days: number[]) => void;
   deleteHabitRequest: (id: number) => void;
+  checkHabitRequest: (id: number) => Promise<boolean>;
+  uncheckHabitRequest: (id: number) => Promise<boolean>;
 }
 
 export interface TodayHabitProps {
@@ -45,12 +48,16 @@ const HabitsContext = createContext<HabitsContextProps>(
 );
 
 export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
+  const { userData } = useContext(UserDataContext);
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newHabit, setNewHabit] = useState<Habit>({ name: "", days: [] });
   const [habitExcluded, setHabitExcluded] = useState(false);
   const [todayHabits, setTodayHabits] = useState<TodayHabitProps[]>([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(userData.token);
+
   const router = useRouter();
+
+  console.log(token);
 
   useEffect(() => {
     const tokenHashed = localStorage.getItem("token");
@@ -58,7 +65,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     if (tokenHashed) {
       setToken(decodeTokenHash(tokenHashed));
     }
-  }, [router]);
+  }, [router, userData]);
 
   useEffect(() => {
     async function getHabits() {
@@ -116,7 +123,6 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   }
 
   async function deleteHabitRequest(id: number) {
-    console.log(id);
     try {
       await api.delete(`/habits/${id}`, {
         headers: {
@@ -126,6 +132,35 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
       setHabitExcluded(false);
     } catch (e) {
       console.log(e); //TODO
+    }
+  }
+
+  async function checkHabitRequest(id: number) {
+    console.log(id);
+    try {
+      await api.post(`/habits/${id}/check`, "", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return true;
+    } catch (e) {
+      console.log(e); //TODO
+      return false;
+    }
+  }
+
+  async function uncheckHabitRequest(id: number) {
+    try {
+      await api.post(`/habits/${id}/uncheck`, "", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return true;
+    } catch (e) {
+      console.log(e); //TODO
+      return false;
     }
   }
 
@@ -141,6 +176,8 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
         todayHabits,
         createNewHabitRequest,
         deleteHabitRequest,
+        checkHabitRequest,
+        uncheckHabitRequest,
       }}
     >
       {children}

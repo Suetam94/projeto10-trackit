@@ -76,12 +76,12 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     }
 
     login();
-  }, [loginData.email, loginData.password]);
+  }, [loginData.email, loginData.password, router]);
 
   useEffect(() => {
     if (userData) {
       const base32Hash = encodeTokenHash(userData.token);
-      localStorage.setItem("token", base32Hash);
+      base32Hash && localStorage.setItem("token", base32Hash);
     }
   }, [userData]);
 
