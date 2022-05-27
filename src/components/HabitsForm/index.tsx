@@ -19,7 +19,7 @@ interface HabitsFormProps {
 
 export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   const { userData } = useContext(UserContext);
-  const { setNewHabit } = useContext(HabitsContext);
+  const { setNewHabit, createNewHabitRequest } = useContext(HabitsContext);
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
 
@@ -38,22 +38,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
 
     onFormIsOpened(false);
 
-    const createNewHabitRequestObject = {
-      name: habitName,
-      days,
-    };
-
-    setNewHabit(createNewHabitRequestObject);
-
-    try {
-      await api.post("/habits", createNewHabitRequestObject, {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      });
-    } catch (e) {
-      console.log(e); //TODO
-    }
+    await createNewHabitRequest(habitName, days);
   }
 
   return (

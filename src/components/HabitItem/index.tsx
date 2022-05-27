@@ -7,13 +7,10 @@ import {
 import { Trash } from "phosphor-react";
 import { weekdays } from "../../utils/weekdays";
 import HabitsContext, { Habit } from "../../context/HabitsContext";
-import { api } from "../../services/axios";
 import { useContext } from "react";
-import UserDataContext from "../../context/UserContext";
 
 export function HabitItem({ id, name, days }: Habit) {
-  const { userData } = useContext(UserDataContext);
-  const { setHabitExcluded } = useContext(HabitsContext);
+  const { deleteHabitRequest } = useContext(HabitsContext);
   function handleWeekday(weekdayValue: number) {
     const dayIsSelected = days.find((day) => day === weekdayValue);
 
@@ -21,17 +18,7 @@ export function HabitItem({ id, name, days }: Habit) {
   }
 
   async function handleDeleteHabit(id: number) {
-    try {
-      await api.delete(`/habits/${id}`, {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      });
-
-      setHabitExcluded(true);
-    } catch (e) {
-      console.log(e); //TODO
-    }
+    await deleteHabitRequest(id);
   }
 
   return (

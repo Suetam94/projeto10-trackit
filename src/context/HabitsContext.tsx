@@ -8,6 +8,7 @@ import {
 import { api } from "../services/axios";
 import UserContext from "./UserContext";
 import { decodeTokenHash } from "../utils/tokenHash";
+import { useRouter } from "next/router";
 
 interface HabitsDataProviderProps {
   children: ReactNode;
@@ -27,6 +28,8 @@ interface HabitsContextProps {
   setHabitExcluded: (excluded: boolean) => void;
   todayHabits: TodayHabitProps[];
   setTodayHabits: (todayHabits: TodayHabitProps[]) => void;
+  createNewHabitRequest: (habitName: string, days: number[]) => void;
+  deleteHabitRequest: (id: number) => void;
 }
 
 export interface TodayHabitProps {
@@ -46,8 +49,8 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   const [newHabit, setNewHabit] = useState<Habit>({ name: "", days: [] });
   const [habitExcluded, setHabitExcluded] = useState(false);
   const [todayHabits, setTodayHabits] = useState<TodayHabitProps[]>([]);
-  const { userData } = useContext(UserContext);
   const [token, setToken] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const tokenHashed = localStorage.getItem("token");
@@ -55,7 +58,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     if (tokenHashed) {
       setToken(decodeTokenHash(tokenHashed));
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     async function getHabits() {
@@ -73,7 +76,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getHabits();
-  }, [userData.token, newHabit, habitExcluded]);
+  }, [token, newHabit, habitExcluded]);
 
   useEffect(() => {
     async function getTodayHabits() {
@@ -91,7 +94,41 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getTodayHabits();
-  }, [userData.token, todayHabits]);
+  }, [token]);
+
+  async function createNewHabitRequest(habitName: string, days: Array<number>) {
+    const createNewHabitRequestObject = {
+      name: habitName,
+      days,
+    };
+
+    setNewHabit(createNewHabitRequestObject);
+
+    try {
+      await api.post("/habits", createNewHabitRequestObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (e) {
+      console.log(e); //TODO
+    }
+  }
+
+  async function deleteHabitRequest(id: number) {
+    console.log(id);
+    try {
+      await api.delete(`/habits/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setHabitExcluded(true);
+    } catch (e) {
+      console.log(e); //TODO
+    }
+  }
 
   return (
     <HabitsContext.Provider
@@ -103,6 +140,8 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
         setHabitExcluded,
         setTodayHabits,
         todayHabits,
+        createNewHabitRequest,
+        deleteHabitRequest,
       }}
     >
       {children}

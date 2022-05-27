@@ -15,6 +15,7 @@ import { HabitItem } from "../HabitItem";
 export function Habits() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { habits } = useContext(HabitsContext);
+
   function handleIsFormOpen() {
     setIsFormOpen(true);
   }
@@ -37,7 +38,7 @@ export function Habits() {
         ) : (
           habits.map((habit) => {
             return (
-              <HabitItem key={habit.id} id={habit.id} name={habit.name} days={habit.days} />
+              <HabitItem id={habit.id} key={habit.id} name={habit.name} days={habit.days} />
             );
           })
         )}

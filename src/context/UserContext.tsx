@@ -65,6 +65,8 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
       try {
         const { data } = await api.post(`/auth/login`, loginRequest);
         setUserData(data);
+        setUserIsLogged(true);
+
         await router.push({
           pathname: "/habitos",
         });
@@ -74,8 +76,7 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
     }
 
     login();
-    setUserIsLogged(true);
-  }, [loginData.email, loginData.password, userIsLogged]);
+  }, [loginData.email, loginData.password]);
 
   useEffect(() => {
     if (userData) {
