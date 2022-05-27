@@ -123,8 +123,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      setHabitExcluded(true);
+      setHabitExcluded(false);
     } catch (e) {
       console.log(e); //TODO
     }

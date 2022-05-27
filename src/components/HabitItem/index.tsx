@@ -10,7 +10,7 @@ import HabitsContext, { Habit } from "../../context/HabitsContext";
 import { useContext } from "react";
 
 export function HabitItem({ id, name, days }: Habit) {
-  const { deleteHabitRequest } = useContext(HabitsContext);
+  const { deleteHabitRequest, setHabitExcluded } = useContext(HabitsContext);
   function handleWeekday(weekdayValue: number) {
     const dayIsSelected = days.find((day) => day === weekdayValue);
 
@@ -18,6 +18,7 @@ export function HabitItem({ id, name, days }: Habit) {
   }
 
   async function handleDeleteHabit(id: number) {
+    setHabitExcluded(true);
     await deleteHabitRequest(id);
   }
 
