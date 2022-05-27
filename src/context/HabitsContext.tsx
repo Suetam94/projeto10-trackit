@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import { api } from "../services/axios";
-import UserContext from "./UserContext";
 import { decodeTokenHash } from "../utils/tokenHash";
 import { useRouter } from "next/router";
 import UserDataContext from "./UserContext";
@@ -54,10 +53,11 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   const [habitExcluded, setHabitExcluded] = useState(false);
   const [todayHabits, setTodayHabits] = useState<TodayHabitProps[]>([]);
   const [token, setToken] = useState(userData.token);
+  const [habitsIdChangedCheckState, setHabitsIdChangedCheckState] = useState<
+    number[]
+  >([]);
 
   const router = useRouter();
-
-  console.log(token);
 
   useEffect(() => {
     const tokenHashed = localStorage.getItem("token");
@@ -101,7 +101,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getTodayHabits();
-  }, [token, newHabit]);
+  }, [token, newHabit, habitsIdChangedCheckState]);
 
   async function createNewHabitRequest(habitName: string, days: Array<number>) {
     const createNewHabitRequestObject = {
@@ -136,13 +136,14 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   }
 
   async function checkHabitRequest(id: number) {
-    console.log(id);
     try {
       await api.post(`/habits/${id}/check`, "", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      setHabitsIdChangedCheckState([...habitsIdChangedCheckState, id]);
       return true;
     } catch (e) {
       console.log(e); //TODO
@@ -157,6 +158,8 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      setHabitsIdChangedCheckState([...habitsIdChangedCheckState, id]);
       return true;
     } catch (e) {
       console.log(e); //TODO

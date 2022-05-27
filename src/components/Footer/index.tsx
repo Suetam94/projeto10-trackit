@@ -1,14 +1,25 @@
-import {
-  FooterContainer,
-  FooterContent,
-  FooterSpan,
-  TodayCircle,
-} from "./styles";
-import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import {FooterContainer, FooterContent, FooterSpan, TodayCircle,} from "./styles";
+import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Link from "next/link";
+import {useContext} from "react";
+import HabitsContext from "../../context/HabitsContext";
 
 export function Footer() {
+  const { todayHabits } = useContext(HabitsContext);
+
+  function handleCalcPercent() {
+    const done = todayHabits
+      .map((habit) => {
+        if (habit.done) {
+          return habit;
+        }
+      })
+      .filter((habit) => habit);
+
+    return (done.length / todayHabits.length);
+  }
+
   return (
     <FooterContainer>
       <FooterContent>
@@ -24,7 +35,7 @@ export function Footer() {
                 trailColor: "#52B6FF",
                 textColor: "#FFF",
               })}
-              value={10}
+              value={handleCalcPercent() * 100}
               background={true}
               backgroundPadding={6}
               text={"Hoje"}
