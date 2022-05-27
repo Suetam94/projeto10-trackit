@@ -20,37 +20,49 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   const { createNewHabitRequest } = useContext(HabitsContext);
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
-  const [daySelected, setDaySelected] = useState<HTMLElement[]>([]);
+  const [daysSelected, setDaysSelected] = useState<HTMLElement[]>([]);
 
-  function handleWeekdaysSelection(el: HTMLElement) {
-    setDaySelected([...daySelected, el]);
-    el.childNodes.forEach((node) => {
-      if (node.nodeName === "INPUT") {
-        const input = node as HTMLInputElement;
-        setDays([...days, Number(input.value)]);
-      }
-    });
+  function handleWeekdaysSelection(el: HTMLElement, dayNumber: number) {
+    if (el.classList.contains("active")) {
+      const elementIndex = daysSelected.findIndex(
+        (daySelected) => daySelected === el
+      );
+      const updatedDaysSelected = daysSelected;
+      updatedDaysSelected.splice(elementIndex, 1);
+      setDaysSelected(updatedDaysSelected);
+
+      const dayIndex = days.findIndex((day) => day === dayNumber);
+      const updatedDays = days;
+
+      updatedDays.splice(dayIndex, 1);
+      setDays(updatedDays);
+
+      el.classList.remove("active");
+    } else {
+      setDaysSelected([...daysSelected, el]);
+      setDays([...days, dayNumber]);
+    }
   }
 
   function handleCancelNewHabitCreation() {
-    daySelected.forEach((day) => {
+    daysSelected.forEach((day) => {
       day.classList.remove("active");
     });
 
-    setDaySelected([]);
+    setDaysSelected([]);
 
     onFormIsOpened(false);
   }
 
   useEffect(() => {
     function handleApplySelectedClass() {
-      daySelected.forEach((day) => {
+      daysSelected.forEach((day) => {
         day.classList.add("active");
       });
     }
 
     handleApplySelectedClass();
-  }, [daySelected]);
+  }, [daysSelected]);
 
   async function handleFormCreateNewHabitSubmit(event: FormEvent) {
     event.preventDefault();
@@ -59,7 +71,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
 
     setHabitName("");
     setDays([]);
-    setDaySelected([]);
+    setDaysSelected([]);
 
     onFormIsOpened(false);
   }
@@ -80,11 +92,12 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
         {weekdays.map((weekday, index) => {
           return (
             <Weekday
-              onClick={(e) => handleWeekdaysSelection(e.target as HTMLElement)}
+              onClick={(e) =>
+                handleWeekdaysSelection(e.target as HTMLElement, weekday.value)
+              }
               key={index}
             >
               <span>{weekday.title}</span>
-              <input type="hidden" value={weekday.value} />
             </Weekday>
           );
         })}
