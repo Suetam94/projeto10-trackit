@@ -1,14 +1,18 @@
 export const weekdays = [
   {
     title: "D",
-    value: 1,
+    value: 0,
   },
   {
     title: "S",
-    value: 2,
+    value: 1,
   },
   {
     title: "T",
+    value: 2,
+  },
+  {
+    title: "Q",
     value: 3,
   },
   {
@@ -16,15 +20,11 @@ export const weekdays = [
     value: 4,
   },
   {
-    title: "Q",
+    title: "S",
     value: 5,
   },
   {
     title: "S",
     value: 6,
-  },
-  {
-    title: "S",
-    value: 7,
   },
 ];

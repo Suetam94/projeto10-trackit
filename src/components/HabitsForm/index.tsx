@@ -7,9 +7,8 @@ import {
 } from "./styles";
 
 import { weekdays } from "../../utils/weekdays";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
-import { api } from "../../services/axios";
 import HabitsContext from "../../context/HabitsContext";
 
 interface HabitsFormProps {
@@ -18,13 +17,13 @@ interface HabitsFormProps {
 }
 
 export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
-  const { userData } = useContext(UserContext);
-  const { setNewHabit, createNewHabitRequest } = useContext(HabitsContext);
+  const { createNewHabitRequest } = useContext(HabitsContext);
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
+  const [daySelected, setDaySelected] = useState<HTMLElement[]>([]);
 
   function handleWeekdaysSelection(el: HTMLElement) {
-    el.classList.add("active");
+    setDaySelected([...daySelected, el]);
     el.childNodes.forEach((node) => {
       if (node.nodeName === "INPUT") {
         const input = node as HTMLInputElement;
@@ -33,12 +32,36 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
     });
   }
 
+  function handleCancelNewHabitCreation() {
+    daySelected.forEach((day) => {
+      day.classList.remove("active");
+    });
+
+    setDaySelected([]);
+
+    onFormIsOpened(false);
+  }
+
+  useEffect(() => {
+    function handleApplySelectedClass() {
+      daySelected.forEach((day) => {
+        day.classList.add("active");
+      });
+    }
+
+    handleApplySelectedClass();
+  }, [daySelected]);
+
   async function handleFormCreateNewHabitSubmit(event: FormEvent) {
     event.preventDefault();
 
-    onFormIsOpened(false);
-
     await createNewHabitRequest(habitName, days);
+
+    setHabitName("");
+    setDays([]);
+    setDaySelected([]);
+
+    onFormIsOpened(false);
   }
 
   return (
@@ -51,6 +74,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
         type={"text"}
         placeholder={"nome do hábito"}
         onChange={(e) => setHabitName(e.target.value)}
+        value={habitName}
       />
       <WeekdayContainer>
         {weekdays.map((weekday, index) => {
@@ -67,7 +91,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
       </WeekdayContainer>
       <ButtonsContainer>
         <button
-          onClick={() => onFormIsOpened(false)}
+          onClick={handleCancelNewHabitCreation}
           type={"button"}
           className="cancel"
         >

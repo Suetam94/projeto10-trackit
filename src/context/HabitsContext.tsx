@@ -94,7 +94,7 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
     }
 
     getTodayHabits();
-  }, [token]);
+  }, [token, newHabit]);
 
   async function createNewHabitRequest(habitName: string, days: Array<number>) {
     const createNewHabitRequestObject = {
