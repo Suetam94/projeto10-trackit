@@ -50,6 +50,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
     });
 
     setDaysSelected([]);
+    setHabitName("");
 
     onFormIsOpened(false);
   }

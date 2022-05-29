@@ -68,6 +68,14 @@ export const Weekday = styled.div`
       color: var(--general-white);
       pointer-events: none;
     }
+
+    @media (max-width: 767px) {
+      background: var(--general-white);
+
+      span {
+        color: var(--placeholder-color);
+      }
+    }
   }
 
   &.active {
