@@ -32,6 +32,8 @@ interface HabitsContextProps {
   deleteHabitRequest: (id: number) => void;
   checkHabitRequest: (id: number) => Promise<boolean>;
   uncheckHabitRequest: (id: number) => Promise<boolean>;
+  setHabitsHistoric: (habitsHistoric: Historic[]) => void;
+  habitsHistoric: Historic[];
 }
 
 export interface TodayHabitProps {
@@ -42,6 +44,20 @@ export interface TodayHabitProps {
   highestSequence: number;
 }
 
+export interface HabitsHistoric {
+  id: number;
+  name: string;
+  date: string;
+  weekDay: number;
+  historyId: number;
+  done: boolean;
+}
+
+export interface Historic {
+  day: string;
+  habits: HabitsHistoric[];
+}
+
 const HabitsContext = createContext<HabitsContextProps>(
   {} as HabitsContextProps
 );
@@ -50,8 +66,9 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
   const { userData } = useContext(UserDataContext);
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newHabit, setNewHabit] = useState<Habit>({ name: "", days: [] });
-  const [habitExcluded, setHabitExcluded] = useState(false);
   const [todayHabits, setTodayHabits] = useState<TodayHabitProps[]>([]);
+  const [habitsHistoric, setHabitsHistoric] = useState<Historic[]>([]);
+  const [habitExcluded, setHabitExcluded] = useState(false);
   const [token, setToken] = useState(userData.token);
   const [habitsIdChangedCheckState, setHabitsIdChangedCheckState] = useState<
     number[]
@@ -102,6 +119,24 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
 
     getTodayHabits();
   }, [token, newHabit, habitsIdChangedCheckState]);
+
+  useEffect(() => {
+    async function getHabitsHistoric() {
+      try {
+        const { data } = await api.get("/habits/history/daily", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setHabitsHistoric(data);
+      } catch (e) {
+        console.log(e); //TODO
+      }
+    }
+
+    getHabitsHistoric();
+  }, [token, habitsHistoric]);
 
   async function createNewHabitRequest(habitName: string, days: Array<number>) {
     const createNewHabitRequestObject = {
@@ -181,6 +216,8 @@ export const HabitsDataProvider = ({ children }: HabitsDataProviderProps) => {
         deleteHabitRequest,
         checkHabitRequest,
         uncheckHabitRequest,
+        habitsHistoric,
+        setHabitsHistoric,
       }}
     >
       {children}
