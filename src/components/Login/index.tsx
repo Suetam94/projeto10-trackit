@@ -11,14 +11,16 @@ import {
 } from "../../styles/LoginSignInStyle";
 import UserDataContext from "../../context/UserContext";
 import { useRouter } from "next/router";
+import { ThreeDots } from "react-loader-spinner";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoginData, userIsLogged } = useContext(UserDataContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { setLoginData } = useContext(UserDataContext);
   const router = useRouter();
 
-  function handleLoginRequest(event: FormEvent) {
+  async function handleLoginRequest(event: FormEvent) {
     event.preventDefault();
 
     const loginObject = {
@@ -28,9 +30,11 @@ export function Login() {
 
     setLoginData(loginObject);
 
-    router.push({
+    setIsLoading(true);
+    await router.push({
       pathname: "/hoje",
     });
+    setIsLoading(false);
   }
 
   return (
@@ -38,16 +42,30 @@ export function Login() {
       <LoginImage src={"/images/logo.svg"} />
       <Form onSubmit={(e) => handleLoginRequest(e)}>
         <Input
+            className={'disabled'}
           type={"text"}
           placeholder={"email"}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
         />
         <Input
           type={"password"}
           placeholder={"senha"}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
         />
-        <Button type={"submit"}>Entrar</Button>
+        <Button
+          className={isLoading ? "disabled" : ""}
+          id={"loginSubmitButton"}
+          type={"submit"}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ThreeDots width={51} height={13} color={"#FFF"} />
+          ) : (
+            "Entrar"
+          )}
+        </Button>
         <Link href={"/cadastro"}>
           <SignInLink>Não tem uma conta? Cadastre-se!</SignInLink>
         </Link>

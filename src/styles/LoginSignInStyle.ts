@@ -32,6 +32,11 @@ export const Input = styled.input`
   line-height: 25px;
   margin-bottom: 6px;
 
+  &.disabled {
+    background: #f2f2f2;
+    color: #afafaf !important;
+  }
+
   &::placeholder {
     color: #dbdbdb;
   }
@@ -46,6 +51,13 @@ export const Button = styled.button`
   text-align: center;
   color: #ffffff;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.disabled {
+    opacity: 0.7;
+  }
 `;
 
 export const SignInLink = styled.a`

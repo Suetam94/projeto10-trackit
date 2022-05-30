@@ -68,10 +68,6 @@ export const UserDataProvider = ({ children }: UserDataProviderProps) => {
         const { data } = await api.post(`/auth/login`, loginRequest);
         setUserData(data);
         setUserIsLogged(true);
-
-        // await router.push({
-        //   pathname: "/habitos",
-        // });
       } catch (e) {
         console.log(e); //TODO
       }
