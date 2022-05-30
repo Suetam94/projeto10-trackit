@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 
 import {
   LoginContainer,
@@ -19,6 +19,21 @@ export function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { setLoginData } = useContext(UserDataContext);
   const router = useRouter();
+  const [userIsAlreadyLogged, setUserIsAlreadyLoggend] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token && token !== "") {
+      setUserIsAlreadyLoggend(true);
+    }
+
+    if (userIsAlreadyLogged) {
+      router.push({
+        pathname: "/hoje",
+      });
+    }
+  }, [router, userIsAlreadyLogged]);
 
   async function handleLoginRequest(event: FormEvent) {
     event.preventDefault();
