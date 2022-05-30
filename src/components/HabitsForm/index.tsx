@@ -75,8 +75,6 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   async function handleFormCreateNewHabitSubmit(event: FormEvent) {
     event.preventDefault();
 
-    console.log(days);
-
     setIsLoading(true);
     await createNewHabitRequest(habitName, days);
     handleRemoveSelectedClass();
