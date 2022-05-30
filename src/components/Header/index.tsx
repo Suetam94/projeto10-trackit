@@ -1,17 +1,15 @@
 import { HeaderContainer, HeaderLogo, HeaderUserImage } from "./styles";
-import { User } from "phosphor-react";
+import { useContext } from "react";
+import UserDataContext from "../../context/UserContext";
 
 export function Header() {
+  const { userData } = useContext(UserDataContext);
+
   return (
     <>
       <HeaderContainer>
         <HeaderLogo>TrackIt</HeaderLogo>
-        <User
-          size={51}
-          weight="fill"
-          style={{ borderRadius: "50%", cursor: "pointer" }}
-        />
-        {/*<HeaderUserImage src={""} />*/}
+        <HeaderUserImage src={userData.image} />
       </HeaderContainer>
     </>
   );
