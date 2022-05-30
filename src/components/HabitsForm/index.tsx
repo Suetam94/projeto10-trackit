@@ -8,7 +8,7 @@ import {
 
 import { weekdays } from "../../utils/weekdays";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import UserContext from "../../context/UserContext";
+import { ThreeDots } from "react-loader-spinner";
 import HabitsContext from "../../context/HabitsContext";
 
 interface HabitsFormProps {
@@ -21,6 +21,7 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
   const [habitName, setHabitName] = useState("");
   const [days, setDays] = useState<Array<number>>([]);
   const [daysSelected, setDaysSelected] = useState<HTMLElement[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleWeekdaysSelection(el: HTMLElement, dayNumber: number) {
     if (el.classList.contains("active")) {
@@ -65,14 +66,24 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
     handleApplySelectedClass();
   }, [daysSelected]);
 
+  function handleRemoveSelectedClass() {
+    daysSelected.forEach((day) => {
+      day.classList.remove("active");
+    });
+  }
+
   async function handleFormCreateNewHabitSubmit(event: FormEvent) {
     event.preventDefault();
 
-    await createNewHabitRequest(habitName, days);
+    console.log(days);
 
+    setIsLoading(true);
+    await createNewHabitRequest(habitName, days);
+    handleRemoveSelectedClass();
     setHabitName("");
-    setDays([]);
     setDaysSelected([]);
+    setDays([]);
+    setIsLoading(false);
 
     onFormIsOpened(false);
   }
@@ -112,7 +123,11 @@ export function HabitsForm({ isFormOpen, onFormIsOpened }: HabitsFormProps) {
           Cancelar
         </button>
         <button type={"submit"} className="save">
-          Salvar
+          {isLoading ? (
+            <ThreeDots width={51} height={13} color={"#FFF"} />
+          ) : (
+            "Salvar"
+          )}
         </button>
       </ButtonsContainer>
     </FormContainer>

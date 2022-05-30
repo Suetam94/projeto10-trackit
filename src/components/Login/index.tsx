@@ -42,13 +42,14 @@ export function Login() {
       <LoginImage src={"/images/logo.svg"} />
       <Form onSubmit={(e) => handleLoginRequest(e)}>
         <Input
-            className={'disabled'}
+          className={isLoading ? "disabled" : ""}
           type={"text"}
           placeholder={"email"}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
         />
         <Input
+          className={isLoading ? "disabled" : ""}
           type={"password"}
           placeholder={"senha"}
           onChange={(e) => setPassword(e.target.value)}

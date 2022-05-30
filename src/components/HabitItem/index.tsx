@@ -14,7 +14,7 @@ export function HabitItem({ id, name, days }: Habit) {
   function handleWeekday(weekdayValue: number) {
     const dayIsSelected = days.find((day) => day === weekdayValue);
 
-    return !!dayIsSelected;
+    return !!dayIsSelected || dayIsSelected === 0;
   }
 
   async function handleDeleteHabit(id: number) {
