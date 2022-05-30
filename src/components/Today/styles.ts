@@ -19,6 +19,7 @@ export const TitleContainer = styled.div`
   min-width: 375px;
   width: 100%;
   margin-bottom: 28px;
+padding-left: 18px;
 `;
 
 export const MainTitle = styled.h3`

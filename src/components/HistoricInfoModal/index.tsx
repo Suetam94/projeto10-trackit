@@ -6,7 +6,7 @@ import { ReactElement, JSXElementConstructor, ReactFragment } from "react";
 interface HistoricInfoModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  dayData: any;
+  dayData: Array<any>;
 }
 
 export function HistoricInfoModal({
@@ -14,7 +14,7 @@ export function HistoricInfoModal({
   onRequestClose,
   dayData,
 }: HistoricInfoModalProps) {
-  const days: any = dayData.filter(
+  const days = dayData.filter(
     (v: { [x: string]: any }, i: any, a: any[]) =>
       a.findIndex((v2) => ["place", "name"].every((k) => v2[k] === v[k])) === i
   );

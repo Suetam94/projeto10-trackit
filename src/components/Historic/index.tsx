@@ -4,7 +4,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
 import { Container, GeneralTitle } from "./styles";
-import { HistoricInfoModal } from "../HistoricInfoModal";
 
 export function Historic() {
   const { habitsHistoric } = useContext(HabitsContext);
@@ -32,6 +31,8 @@ export function Historic() {
       }
     });
   }, [habitsHistoric]);
+
+  console.log(dayData);
 
   function handleHabitsHistoricCheck(e: Date) {
     const formatedDate = format(e, "dd/MM/yyyy");
@@ -64,11 +65,11 @@ export function Historic() {
         formatLongDate={(locale, date) => format(date, "dd/MM/yyyy")}
         onClickDay={(e) => handleHabitsHistoricCheck(e)}
       />
-      <HistoricInfoModal
-        isOpen={modalOpen}
-        onRequestClose={handleModalIsClosed}
-        dayData={dayData}
-      />
+      {/*<HistoricInfoModal*/}
+      {/*  isOpen={modalOpen}*/}
+      {/*  onRequestClose={handleModalIsClosed}*/}
+      {/*  dayData={dayData}*/}
+      {/*/>*/}
     </Container>
   );
 }
