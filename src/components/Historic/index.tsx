@@ -4,10 +4,13 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
 import { Container, GeneralTitle } from "./styles";
+import { HistoricInfoModal } from "../HistoricInfoModal";
 
 export function Historic() {
   const { habitsHistoric } = useContext(HabitsContext);
   const [value, onChange] = useState(new Date());
+  const [dayData, setDayData] = useState<any>("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const abbrs = document.querySelectorAll("abbr");
@@ -30,6 +33,26 @@ export function Historic() {
     });
   }, [habitsHistoric]);
 
+  function handleHabitsHistoricCheck(e: Date) {
+    const formatedDate = format(e, "dd/MM/yyyy");
+
+    const habitsOfTheDay = habitsHistoric.find(
+      (habit) => habit.day === formatedDate
+    );
+
+    if (habitsOfTheDay) {
+      habitsOfTheDay.habits.forEach((habit) => {
+        setDayData([...dayData, habit]);
+      });
+
+      setModalOpen(true);
+    }
+  }
+
+  function handleModalIsClosed() {
+    setModalOpen(false);
+  }
+
   return (
     <Container>
       <GeneralTitle>Histórico</GeneralTitle>
@@ -39,6 +62,12 @@ export function Historic() {
         value={value}
         calendarType={"US"}
         formatLongDate={(locale, date) => format(date, "dd/MM/yyyy")}
+        onClickDay={(e) => handleHabitsHistoricCheck(e)}
+      />
+      <HistoricInfoModal
+        isOpen={modalOpen}
+        onRequestClose={handleModalIsClosed}
+        dayData={dayData}
       />
     </Container>
   );
